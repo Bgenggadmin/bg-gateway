@@ -1,36 +1,38 @@
 import streamlit as st
+from datetime import datetime, timedelta
+import extra_streamlit_components as cookie_manager
 
-# --- 1. PAGE CONFIG ---
-st.set_page_config(page_title="B&G Digital HQ", page_icon="🏗️", layout="centered")
+# --- COOKIE LOGIC ---
+controller = cookie_manager.CookieManager()
 
-# --- 2. THE GATEWAY INTERFACE ---
+if "auth" not in st.session_state:
+    st.session_state["auth"] = False
+
+all_cookies = controller.get_all()
+if not all_cookies:
+    st.stop()
+
+if controller.get("bg_gateway_login") == "true":
+    st.session_state["auth"] = True
+
+if not st.session_state["auth"]:
+    st.title("🏗️ B&G Digital HQ")
+    pwd = st.text_input("Admin Password", type="password")
+    if st.button("Access Gateway"):
+        if pwd == "BG2026": # Master Admin Password
+            st.session_state["auth"] = True
+            controller.set("bg_gateway_login", "true", expires_at=datetime.now() + timedelta(days=30))
+            st.rerun()
+    st.stop()
+
+# --- GATEWAY BUTTONS ---
 st.title("🏗️ B&G Engineering Industries")
-st.subheader("Digital Shopfloor Control Center")
-st.write("Select a module below to begin logging or viewing reports.")
+st.write("Select a department to continue.")
 
-st.divider()
-
-# --- 3. APP LINKS ---
-# Replace the URLs below with your actual live Streamlit links
 c1, c2, c3 = st.columns(3)
-
 with c1:
-    st.info("### 📝 Production")
-    st.write("Man-hours, Worker logs, & Daily Output Tracking.")
-    st.link_button("Open Shopfloor Monitor", "https://bg-engineering-monitor.streamlit.app")
-    st.write("**Password:** `BG2026`")
-
+    st.link_button("📝 Production", "https://bg-engineering-monitor.streamlit.app")
 with c2:
-    st.success("### ✅ Quality")
-    st.write("PMI, Hydrotest, FAT, & Photo Evidence Logs.")
-    st.link_button("Open Quality Master", "https://bg-quality-master.streamlit.app")
-    st.write("**Password:** `BGQUALITY`")
-
+    st.link_button("✅ Quality", "https://bg-quality-master.streamlit.app")
 with c3:
-    st.warning("### 🔧 Maintenance")
-    st.write("Crane, CNC, & TIG Machine Service Records.")
-    st.link_button("Open Maintenance App", "https://bg-maintenance-master.streamlit.app")
-    st.write("**Password:** `BGMAINT`")
-
-st.divider()
-st.caption("Developed for B&G Engineering Industries Shopfloor Management.")
+    st.link_button("🔧 Maintenance", "https://bg-maintenance-master.streamlit.app")
