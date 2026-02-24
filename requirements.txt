@@ -1,3 +1,4 @@
 extra-streamlit-components
 Pillow
 pandas
+pytz
