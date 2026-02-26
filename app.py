@@ -46,3 +46,13 @@ with col2:
 
 st.divider()
 st.caption("© 2026 B&G Engineering Industries | Developed for Shopfloor Excellence")
+# --- ADD THIS AFTER YOUR 4-PILLAR COLUMNS ---
+st.divider()
+
+# A wide, purple button for the Master Dashboard
+st.markdown("""
+    <a href="https://bg-analytics-master.streamlit.app/" target="_blank" class="main-button" 
+       style="background-color: #4527A0; margin-top: 20px;">
+       📊 MASTER ANALYTICS DASHBOARD
+    </a>
+""", unsafe_allow_html=True)
