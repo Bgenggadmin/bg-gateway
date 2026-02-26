@@ -43,11 +43,13 @@ st.markdown("""
 st.title("🏗️ B&G Engineering Industries")
 st.subheader("Smart Factory Management Suite")
 
-# --- 4. MASTER ANALYTICS (Top Priority) ---
-st.markdown('<a href="https://bg-analytics-master.streamlit.app/" target="_blank" class="master-btn">📊 MASTER ANALYTICS DASHBOARD</a>', unsafe_allow_html=True)
+# --- UPDATE THESE LINKS IN YOUR GATEWAY APP.PY ---
 
-st.divider()
-st.info("Select a department below to log data:")
+# 1. Master Analytics Dashboard Button
+st.markdown('<a href="https://bg-analytics-master-p3xgwancmxryycn3gcsbsm.streamlit.app/" target="_blank" class="master-btn">📊 MASTER ANALYTICS DASHBOARD</a>', unsafe_allow_html=True)
+
+# 2. Production Button (Verified from your tab)
+st.markdown('<a href="https://bg-engineering-monitor.streamlit.app/" target="_blank" class="dept-btn prod">⚙️ PRODUCTION</a>', unsafe_allow_html=True)
 
 # --- 5. DEPARTMENT BUTTONS (2x2 Grid) ---
 col1, col2 = st.columns(2)
