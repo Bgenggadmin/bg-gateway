@@ -1,38 +1,48 @@
 import streamlit as st
-from datetime import datetime, timedelta
-import extra_streamlit_components as cookie_manager
 
-# --- COOKIE LOGIC ---
-controller = cookie_manager.CookieManager()
+# --- 1. CONFIG ---
+st.set_page_config(page_title="B&G Engineering Gateway", layout="centered")
 
-if "auth" not in st.session_state:
-    st.session_state["auth"] = False
+# --- 2. STYLING ---
+st.markdown("""
+    <style>
+    .main-button {
+        display: block;
+        width: 100%;
+        padding: 20px;
+        margin: 10px 0;
+        font-size: 22px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: white !important;
+        border-radius: 10px;
+        border: none;
+    }
+    .prod { background-color: #2E7D32; } /* Green */
+    .qual { background-color: #1565C0; } /* Blue */
+    .maint { background-color: #C62828; } /* Red */
+    .logis { background-color: #EF6C00; } /* Orange */
+    </style>
+""", unsafe_allow_html=True)
 
-all_cookies = controller.get_all()
-if not all_cookies:
-    st.stop()
-
-if controller.get("bg_gateway_login") == "true":
-    st.session_state["auth"] = True
-
-if not st.session_state["auth"]:
-    st.title("🏗️ B&G Digital HQ")
-    pwd = st.text_input("Admin Password", type="password")
-    if st.button("Access Gateway"):
-        if pwd == "BG2026": # Master Admin Password
-            st.session_state["auth"] = True
-            controller.set("bg_gateway_login", "true", expires_at=datetime.now() + timedelta(days=30))
-            st.rerun()
-    st.stop()
-
-# --- GATEWAY BUTTONS ---
+# --- 3. UI ---
+st.image("https://raw.githubusercontent.com/Bgenggadmin/bg-production-master/main/logo.png", width=200) # Optional: Add your logo link
 st.title("🏗️ B&G Engineering Industries")
-st.write("Select a department to continue.")
+st.subheader("Digital Management Gateway")
 
-c1, c2, c3 = st.columns(3)
-with c1:
-    st.link_button("📝 Production", "https://bg-engineering-monitor.streamlit.app")
-with c2:
-    st.link_button("✅ Quality", "https://bg-quality-master.streamlit.app")
-with c3:
-    st.link_button("🔧 Maintenance", "https://bg-maintenance-master.streamlit.app")
+st.info("Select a department below to start logging data.")
+
+# --- 4. THE FOUR PILLARS ---
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown('<a href="https://bg-production-master.streamlit.app/" target="_blank" class="main-button prod">⚙️ PRODUCTION</a>', unsafe_allow_html=True)
+    st.markdown('<a href="https://bg-maintenance-master.streamlit.app/" target="_blank" class="main-button maint">🔧 MAINTENANCE</a>', unsafe_allow_html=True)
+
+with col2:
+    st.markdown('<a href="https://bg-quality-master.streamlit.app/" target="_blank" class="main-button qual">🧪 QUALITY</a>', unsafe_allow_html=True)
+    st.markdown('<a href="https://bg-logistics-master.streamlit.app/" target="_blank" class="main-button logis">🚛 LOGISTICS</a>', unsafe_allow_html=True)
+
+st.divider()
+st.caption("© 2026 B&G Engineering Industries | Developed for Shopfloor Excellence")
